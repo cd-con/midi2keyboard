@@ -68,15 +68,11 @@ def ReleaseKey(hexKeyCode):
     ctypes.windll.user32.SendInput(1, ctypes.pointer(x), ctypes.sizeof(x))
 
 
-activeKeys = []
 with mido.open_input() as midiDevice:
     for msg in midiDevice:
-        try:
-            if msg.type == 'note_on' and assignedInputs[msg.note] not in activeKeys:
-                activeKeys.append(assignedInputs[msg.note])
+        if msg.note in assignedUnputs:
+            if msg.type == 'note_on':
                 PressKey(assignedInputs[msg.note])
-            elif msg.type == 'note_off' and assignedInputs[msg.note] in activeKeys:
-                activeKeys.remove(assignedInputs[msg.note])
+            elif msg.type == 'note_off':
                 ReleaseKey(assignedInputs[msg.note])
-        except KeyError:
-            pass
+
