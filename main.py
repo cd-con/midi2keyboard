@@ -70,7 +70,7 @@ def ReleaseKey(hexKeyCode):
 
 with mido.open_input() as midiDevice:
     for msg in midiDevice:
-        if msg.note in assignedUnputs:
+        if msg.note in assignedInputs:
             if msg.type == 'note_on':
                 PressKey(assignedInputs[msg.note])
             elif msg.type == 'note_off':
